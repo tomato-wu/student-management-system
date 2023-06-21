@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
-  const [username, setUsername] = useState(""); // 用户名
-  const [password, setPassword] = useState(""); // 密码
-  const navigate = useNavigate();
+const LoginForm:React.FC  = () => {
+  const [username, setUsername] = useState<string>(""); // 用户名
+  const [password, setPassword] = useState<string>(""); // 密码
+
 
   const LoginFunc = async () => {
     // 登录函数

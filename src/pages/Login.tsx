@@ -40,7 +40,7 @@ const Login: React.FC = () => {
 
   const navigate = useNavigate();
   const LinkToHome = () => {
-    navigate("/home");
+    navigate("/homepage");
   };
 
   const LinkToIntroduction = () => {

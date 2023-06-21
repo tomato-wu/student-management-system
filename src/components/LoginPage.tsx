@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Space } from "antd";
 import LoginForm from "./LoginForm";
 
-const { Search } = Input;
-
-const LoginPage = () => {
+const LoginPage : React.FC  = () => {
 
   let [loginStatus, setLoginStatus] = useState<boolean>(true);
 
