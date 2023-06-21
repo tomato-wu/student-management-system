@@ -16,6 +16,7 @@ import {
 } from '@ant-design/icons'
 // 自定义组件
 import UserList from '../components/UserList'
+import ManagerList from '../components/ManagerList'
 import logo from '../assets/logo.png'
 const { Header, Content, Footer } = Layout
 
@@ -28,7 +29,7 @@ const items = [
   },
    {
     label: '系统管理员管理',
-    key: 'userList',
+    key: 'managerList',
     icon: <CodeOutlined />,
   },
   
@@ -38,10 +39,10 @@ function MenuItemPage({ currentPage }: { currentPage: string }) {
   switch (currentPage) {
     case 'userList':
       return <UserList />
-    case 'textExtraction':
-      return null
+    case 'managerList':
+      return <ManagerList />
     default:
-      return null
+      return null 
   }
 }
 
@@ -50,8 +51,8 @@ const HomePage: React.FC = () => {
   const [current, setCurrent] = useState<string>('userList')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
-  const onClick = () => {
-    console.log('click');
+  const onClick = (e: { key: React.SetStateAction<string> }) => {    
+    setCurrent(e.key)
   }
 
   const navigate = useNavigate()
@@ -61,7 +62,7 @@ const HomePage: React.FC = () => {
   //     localStorage.removeItem('token')
   //     navigate('/')
   //   }
-  // }, [navigate])
+  // }, [navigate]) 
 
   const logOut = async () => {
     localStorage.removeItem('token')
