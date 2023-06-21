@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Col, Row, Space, Table, Tag, Input, Button, Modal } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 
+import StudentInformation from "./StudentInformation";
+
 import type { ColumnsType } from "antd/es/table";
 const { Search } = Input;
 
@@ -140,16 +142,14 @@ const UserList: React.FC = () => {
           </Button>
 
           <Modal
-            title="Modal 1000px width"
-            centered
+            title="学生用户信息"
             open={open}
             onOk={() => setOpen(false)}
             onCancel={() => setOpen(false)}
-            width={1000}
           >
-            <p>some contents...</p>
-            <p>some contents...</p>
-            <p>some contents...</p>
+            <div>
+              <StudentInformation />
+            </div>
           </Modal>
 
           <Table columns={columns} dataSource={data} />
