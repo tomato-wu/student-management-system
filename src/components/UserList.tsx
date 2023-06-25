@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Space, Table, Tag, Input, Button, Modal } from "antd";
+import {
+  Col,
+  Row,
+  Space,
+  Table,
+  Tag,
+  Input,
+  Button,
+  Modal,
+  message,
+} from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 
 import StudentInformation from "./StudentInformation";
@@ -46,30 +56,27 @@ const UserList: React.FC = () => {
       title: "学号",
       dataIndex: "uid",
       key: "uid",
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "姓名",
       dataIndex: "userName",
       key: "userName",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "班级",
       dataIndex: "className",
       key: "className",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "电话",
       dataIndex: "phoneNum",
       key: "phoneNum",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "邮箱",
       dataIndex: "email",
       key: "email",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "家庭住址",
@@ -113,7 +120,13 @@ const UserList: React.FC = () => {
   };
   const deleteStudent = async (record: DataType) => {
     const res = await ApiRequest.post("/delete?uid=" + record.uid);
-    fn();
+    if (res.status === 200) {
+      fn();
+      message.success("删除成功");
+    } else {
+      message.error("删除失败");
+    }
+
     console.log(res);
   };
 
@@ -139,6 +152,11 @@ const UserList: React.FC = () => {
             open={open}
             onOk={() => setOpen(false)}
             onCancel={() => setOpen(false)}
+            footer={[
+              <Button key="back" onClick={() => setOpen(false)}>
+                关闭
+              </Button>,
+            ]}
           >
             <div>
               <StudentInformation />

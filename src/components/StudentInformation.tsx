@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import React from "react";
 import ApiRequest from "../utils/index";
 
@@ -15,7 +15,13 @@ const StudentInformation: React.FC = () => {
   const [form] = Form.useForm();
   const onFinish = async (values: any) => {
     const res = await ApiRequest.post("/create", values);
-    console.log(res);
+    if (res.status === 200) {
+      message.success("添加成功");
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
+    } else {
+      message.error("添加失败");
+    }
   };
 
   const onReset = () => {
@@ -35,13 +41,13 @@ const StudentInformation: React.FC = () => {
       </Form.Item>
       <Form.Item name="userName" label="姓名" rules={[{ required: true }]}>
         <Input />
-      </Form.Item>{" "}
+      </Form.Item>
       <Form.Item name="className" label="班级" rules={[{ required: true }]}>
         <Input />
-      </Form.Item>{" "}
+      </Form.Item>
       <Form.Item name="phoneNum" label="电话" rules={[{ required: true }]}>
         <Input />
-      </Form.Item>{" "}
+      </Form.Item>
       <Form.Item name="email" label="邮箱" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
