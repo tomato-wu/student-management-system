@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Space, Table, Tag, Input, Button, Modal } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 
 import StudentInformation from "./StudentInformation";
+import ApiRequsest from "../utils/index";
 
 import type { ColumnsType } from "antd/es/table";
 const { Search } = Input;
@@ -17,69 +18,48 @@ const suffix = (
 );
 
 interface DataType {
-  key: string;
-  name: string;
-  studentId: number;
+  uid: string;
+  userName: string;
+  className: string;
+  phoneNum: string;
+  email: string;
   address: string;
-  tags: string[];
 }
-
-const onSearch = (value: string) => console.log(value);
 
 const columns: ColumnsType<DataType> = [
   {
     title: "学号",
-    dataIndex: "studentId",
-    key: "studentId",
+    dataIndex: "uid",
+    key: "uid",
   },
   {
     title: "姓名",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "userName",
+    key: "userName",
     render: (text) => <a>{text}</a>,
   },
   {
     title: "班级",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "className",
+    key: "className",
     render: (text) => <a>{text}</a>,
   },
   {
     title: "电话",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "phoneNum",
+    key: "phoneNum",
     render: (text) => <a>{text}</a>,
   },
   {
     title: "邮箱",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "email",
+    key: "email",
     render: (text) => <a>{text}</a>,
   },
   {
     title: "家庭住址",
     dataIndex: "address",
     key: "address",
-  },
-  {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
   },
   {
     title: "Action",
@@ -89,7 +69,7 @@ const columns: ColumnsType<DataType> = [
         <Button type="primary" ghost>
           详情
         </Button>
-        <Button type="primary" ghost danger>
+        <Button type="primary" ghost danger onClick={deleteStudent}>
           删除
         </Button>
       </Space>
@@ -97,32 +77,42 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    studentId: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    studentId: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    studentId: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
+const deleteStudent = async (e: any) => {
+  console.log(e);
+
+  // const res = await ApiRequsest.get("/delete?uid=" + 1);
+  // console.log(res);
+};
+
+// const data: DataType[] = [
+//   {
+//     uid: "1",
+//     userName: "John Brown",
+//     className: "32",
+//     phoneNum: "123456789",
+//     email: "dadada",
+//     address: "New York No. 1 Lake Park",
+//   },
+// ];
 
 const UserList: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const [data, setData] = useState<any>([]);
+
+  const fn = async () => {
+    const res = await ApiRequsest.get("/findAllUser");
+    setData(res.data);
+  };
+  useEffect(() => {
+    fn();
+  }, []);
+
+  const onSearch = async (value: string) => {
+    console.log(value);
+    console.log("onSearch");
+    const res = await ApiRequsest.get("/findByUid?uid=" + value);
+    setData(res.data);
+  };
 
   return (
     <>
