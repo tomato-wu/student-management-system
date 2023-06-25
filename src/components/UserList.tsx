@@ -3,7 +3,7 @@ import { Col, Row, Space, Table, Tag, Input, Button, Modal } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 
 import StudentInformation from "./StudentInformation";
-import ApiRequsest from "../utils/index";
+import ApiRequest from "../utils/index";
 
 import type { ColumnsType } from "antd/es/table";
 const { Search } = Input;
@@ -26,64 +26,6 @@ interface DataType {
   address: string;
 }
 
-const columns: ColumnsType<DataType> = [
-  {
-    title: "学号",
-    dataIndex: "uid",
-    key: "uid",
-  },
-  {
-    title: "姓名",
-    dataIndex: "userName",
-    key: "userName",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "班级",
-    dataIndex: "className",
-    key: "className",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "电话",
-    dataIndex: "phoneNum",
-    key: "phoneNum",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "邮箱",
-    dataIndex: "email",
-    key: "email",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "家庭住址",
-    dataIndex: "address",
-    key: "address",
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <Button type="primary" ghost>
-          详情
-        </Button>
-        <Button type="primary" ghost danger onClick={deleteStudent}>
-          删除
-        </Button>
-      </Space>
-    ),
-  },
-];
-
-const deleteStudent = async (e: any) => {
-  console.log(e);
-
-  // const res = await ApiRequsest.get("/delete?uid=" + 1);
-  // console.log(res);
-};
-
 // const data: DataType[] = [
 //   {
 //     uid: "1",
@@ -99,8 +41,64 @@ const UserList: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
 
+  const columns: ColumnsType<DataType> = [
+    {
+      title: "学号",
+      dataIndex: "uid",
+      key: "uid",
+    },
+    {
+      title: "姓名",
+      dataIndex: "userName",
+      key: "userName",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "班级",
+      dataIndex: "className",
+      key: "className",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "电话",
+      dataIndex: "phoneNum",
+      key: "phoneNum",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "邮箱",
+      dataIndex: "email",
+      key: "email",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "家庭住址",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <Button type="primary" ghost>
+            详情
+          </Button>
+          <Button
+            type="primary"
+            ghost
+            danger
+            onClick={() => deleteStudent(record)}
+          >
+            删除
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
   const fn = async () => {
-    const res = await ApiRequsest.get("/findAllUser");
+    const res = await ApiRequest.get("/findAllUser");
     setData(res.data);
   };
   useEffect(() => {
@@ -108,10 +106,13 @@ const UserList: React.FC = () => {
   }, []);
 
   const onSearch = async (value: string) => {
-    console.log(value);
-    console.log("onSearch");
-    const res = await ApiRequsest.get("/findByUid?uid=" + value);
+    const res = await ApiRequest.get("/findByUid?uid=" + value);
     setData(res.data);
+  };
+  const deleteStudent = async (record: DataType) => {
+    const res = await ApiRequest.post("/delete?uid=" + record.uid);
+    fn();
+    console.log(res);
   };
 
   return (
