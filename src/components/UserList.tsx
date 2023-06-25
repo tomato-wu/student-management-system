@@ -23,7 +23,7 @@ interface DataType {
   className: string;
   phoneNum: string;
   email: string;
-  address: string;
+  HomeAddress: string;
 }
 
 // const data: DataType[] = [
@@ -33,7 +33,7 @@ interface DataType {
 //     className: "32",
 //     phoneNum: "123456789",
 //     email: "dadada",
-//     address: "New York No. 1 Lake Park",
+//     HomeAddress: "New York No. 1 Lake Park",
 //   },
 // ];
 
@@ -73,8 +73,8 @@ const UserList: React.FC = () => {
     },
     {
       title: "家庭住址",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "HomeAddress",
+      key: "HomeAddress",
     },
     {
       title: "Action",
@@ -99,6 +99,8 @@ const UserList: React.FC = () => {
 
   const fn = async () => {
     const res = await ApiRequest.get("/findAllUser");
+    console.log(res.data);
+
     setData(res.data);
   };
   useEffect(() => {
