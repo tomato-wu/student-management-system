@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import ApiRequest from "../utils/index";
 
-const LoginForm:React.FC  = () => {
-  const [username, setUsername] = useState<string>(""); // 用户名
+const LoginForm: React.FC = () => {
+  const [account, setAccount] = useState<string>(""); // 用户名
   const [password, setPassword] = useState<string>(""); // 密码
-
-
+  const navigate = useNavigate();
   const LoginFunc = async () => {
     // 登录函数
-    console.log("登录");
+    const employee = {
+      account: account,
+      password: password,
+    };
+    const res = await ApiRequest.post("/employee/login", employee);
+    if (res.status === 200) {
+      message.success("登录成功");
+      // localStorage.setItem("token", res.data.token);
+      navigate("/homepage");
+    } else {
+      message.error("登录失败");
+    }
+    console.log("登录", res);
   };
 
   return (
@@ -21,7 +33,7 @@ const LoginForm:React.FC  = () => {
       >
         {/* 用户名 */}
         <Form.Item
-          name="username"
+          name="account"
           rules={[
             {
               required: true,
@@ -33,8 +45,8 @@ const LoginForm:React.FC  = () => {
             placeholder="用户名"
             size="large"
             allowClear
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={account}
+            onChange={(e) => setAccount(e.target.value)}
             style={{ width: "300px" }}
           />
         </Form.Item>

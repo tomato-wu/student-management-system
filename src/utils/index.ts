@@ -19,7 +19,7 @@ export class Request {
   instance: AxiosInstance;
   // 基础配置，url和超时时间
   baseConfig: AxiosRequestConfig = {
-    baseURL: "http://127.0.0.1:7001/api/user",
+    baseURL: "http://127.0.0.1:7001/api",
     timeout: 5000,
   };
 

@@ -14,7 +14,11 @@ const tailLayout = {
 const StudentInformation: React.FC = () => {
   const [form] = Form.useForm();
   const onFinish = async (values: any) => {
-    const res = await ApiRequest.post("/create", values);
+    console.log("Success:", values);
+
+    const res = await ApiRequest.post("/user/create", values);
+    console.log(res);
+
     if (res.status === 200) {
       message.success("添加成功");
       // eslint-disable-next-line no-restricted-globals
@@ -36,7 +40,7 @@ const StudentInformation: React.FC = () => {
       onFinish={onFinish}
       style={{ maxWidth: 600, marginTop: "30px" }}
     >
-      <Form.Item name="uid" label="学号" rules={[{ required: true }]}>
+      <Form.Item name="key" label="学号" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
       <Form.Item name="userName" label="姓名" rules={[{ required: true }]}>

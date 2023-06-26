@@ -15,7 +15,7 @@ import {
   FundViewOutlined,
 } from "@ant-design/icons";
 // 自定义组件
-import UserList from "../components/UserList";
+import EditUserList from "../components/editUserList";
 import ManagerList from "../components/ManagerList";
 import logo from "../assets/logo.png";
 const { Header, Content, Footer } = Layout;
@@ -36,7 +36,7 @@ const items = [
 function MenuItemPage({ currentPage }: { currentPage: string }) {
   switch (currentPage) {
     case "userList":
-      return <UserList />;
+      return <EditUserList />;
     case "managerList":
       return <ManagerList />;
     default:
