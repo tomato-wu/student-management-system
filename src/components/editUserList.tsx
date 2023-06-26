@@ -121,11 +121,16 @@ const EditUserList: React.FC = () => {
   };
 
   const save = async (key: React.Key) => {
-    console.log(key);
-
     try {
       const row = (await form.validateFields()) as Item;
 
+      const res = await ApiRequest.post("/user/update", row);
+      if (res.status === 200) {
+        fn();
+        message.success("修改成功");
+      } else {
+        message.error("修改失败");
+      }
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
